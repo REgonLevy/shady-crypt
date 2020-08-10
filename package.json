@@ -1,0 +1,6 @@
+{
+  "name": "shady-crypt",
+  "version": "5.0.0",
+  "description": "A moderately secure cryptographic hashing and PRNG package.",
+  "main": "index.js"
+}
