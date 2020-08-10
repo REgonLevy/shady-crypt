@@ -96,7 +96,7 @@ const random = () => {
         k = (k < 1023) ? k + 1 : 0;
         x = state[j];
         t = (x << 12) + c;
-        c = (x >> 20) - ((t ^ flip) < (x ^ flip));
+        c = (x >>> 20) - ((t ^ flip) < (x ^ flip));
         state[j] = ~(t - x);
         lcg = (Math.imul(mult, lcg) + sh) | 0;
         xors ^= xors << 13;
@@ -174,7 +174,7 @@ const randomInt = () => {
         k = (k < 1023) ? k + 1 : 0;
         x = state[j];
         t = (x << 12) + c;
-        c = (x >> 20) - ((t ^ flip) < (x ^ flip));
+        c = (x >>> 20) - ((t ^ flip) < (x ^ flip));
         state[j] = ~(t - x);
         lcg = (Math.imul(mult, lcg) + sh) | 0;
         xors ^= xors << 13;

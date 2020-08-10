@@ -12,9 +12,9 @@ void fill(){
 
     for(int i = 0; i < 4827; i++){
         lcg = 69069 * lcg + 13579;
-        xors ^= (xors<<13);
-        xors ^= (xors>>17);
-        xors ^= (xors<<5);
+        xors ^= xors << 13;
+        xors ^= (unsigned int) xors >> 17;
+        xors ^= xors << 5;
         state[i] = lcg + xors;
     }
 
