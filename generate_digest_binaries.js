@@ -1,4 +1,4 @@
-const shady = require('./exports.js');
+const shady = require('./index.js');
 const fs = require('fs');
 const readline = require('readline');
 
