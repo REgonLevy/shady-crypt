@@ -1,6 +1,6 @@
 {
   "name": "shady-crypt",
   "version": "5.0.0",
-  "description": "A moderately secure cryptographic hashing and PRNG package.",
+  "description": "A better-than-average password hashing and CSPRNG library.",
   "main": "index.js"
 }
