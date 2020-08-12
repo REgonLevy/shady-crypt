@@ -100,7 +100,7 @@ let x = randInt();
 // x will be an integer between -2147483648 and 2147483647.
 
 let y = randInt() < 0; 	
-// y will have a 50-50 chance of being either 1 (if the number is negative) or 0.
+// y will have a 50-50 chance of being either true (if the number is negative) or false.
 ```
 
 ## Testing: 
