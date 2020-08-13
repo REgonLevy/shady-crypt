@@ -1,6 +1,8 @@
 "use strict";
 
 const fs = require('fs');
+const path = require('path');
+const wasmPath = path.join(__dirname, './hash.wasm');
 
 function toUint8Array(buff){
 
@@ -208,7 +210,7 @@ module.exports = {
 
         const random = randomInt();
         
-        return loadWebAssembly('hash.wasm').then(i => {
+        return loadWebAssembly(wasmPath).then(i => {
 
             const buff = new Uint8Array(i.exports.memory.buffer, 0, 100);
 
@@ -254,7 +256,7 @@ module.exports = {
 
     verify: (password, hash, callback, error) => {
 
-        return loadWebAssembly('hash.wasm').then(i => {
+        return loadWebAssembly(wasmPath).then(i => {
 
             const buff = new Uint8Array(i.exports.memory.buffer, 0, 100);
 
