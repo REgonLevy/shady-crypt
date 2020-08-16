@@ -1,6 +1,8 @@
 const shady = require('./index.js');
 const fs = require('fs');
 const readline = require('readline');
+const path = require('path');
+const wasmPath = path.join(__dirname, './hash.wasm');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -49,13 +51,19 @@ function toUint8Array(buff) {
 
   let password = undefined;
 
-  const make = (password = "p@ssw0rd", kb = 1000) => loadWebAssembly('compressOOG.wasm').then(i => {
+  const make = (password = "p@ssw0rd", kb = 1000) => loadWebAssembly(wasmPath).then(i => {
 
     const bites = new Uint8Array(1008*kb);
 
-    for(let k = 0; k < 16 * kb; k++) {
+    while(password.length < 72){
 
-    let password = "p@ssw0rd";
+      password += password;
+  
+    }
+
+    password = password.slice(0, 72);
+
+    for(let k = 0; k < 16 * kb; k++) {
 
     const buff = new Uint8Array(i.exports.memory.buffer, 0, 100);
     let t;
@@ -71,12 +79,6 @@ function toUint8Array(buff) {
         }
         buff[i] = char;
     }
-
-    while(password.length < 72){
-        password += password;
-    }
-
-    password = password.slice(0, 72);
 
     for(let i = 0; i < 72; i++){
         t = password.charCodeAt(i);

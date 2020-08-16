@@ -81,10 +81,6 @@ void hash(char *pw) {
 
     int invpp[56] = {519170936,412078892,506736596,484253120,1627537260,183710284,127325164,1464498296,472899176,98106920,1303323636,776835808,1082354532,815016048,1660687572,1788023096,1846906708,888388812,357535080,1894966816,917029324,1214113040,4183412,191066456,1131306440,1183635672,676653392,67712956,691400040,1640979328,667542528,1572388584,2072700368,36152564,1422976636,296539924,375298844,1741642216,895703072,544094728,1284269988,313022696,1339361308,842211800,1036508032,245555904,1048299404,1310572596,1809930328,1610998220,1310198932,882618256,1873268072,983195748,2086972192,32};
 
-    // Work factor (minimum of 1, maximum of 262143):
-
-    int work = password[0] + 64 * password[1] + 4096 * password[2];
-
     // Symbol stream for 64-symbol alphabet rANS (see Mart Simsker, "A review of 'Asymmetric Numeral Systems'", https://pdfs.semanticscholar.org/7ed6/509ed03f7df6feb2c26d4653669662274834.pdf):
 
     unsigned int stream[1120];
@@ -108,6 +104,10 @@ void hash(char *pw) {
     for(int i = 0; i < 100; i ++){
         password[i] = pw[i];
     }
+
+    // Work factor (minimum of 1, maximum of 262143):
+
+    int work = password[0] + 64 * password[1] + 4096 * password[2];
 
     xs = password[3] + (password[4] << 6) + (password[5] << 12) + (password[6] << 18) + (password[7] << 24) + (password[13] << 30);
     cng = password[8] + (password[9] << 6) + (password[10] << 12) + (password[11] << 18) + (password[12] << 24) + ((password[13] & 12) << 28);
@@ -432,7 +432,7 @@ for(int l = 0; l < 7; l++){
             c1[i + j] += t1[i] * t1[j];
             c2[i + j] += t2[i] * t2[j];
             carry ^= c0[i + j];
-            carry ^= c1[i + j];
+            carry += c1[i + j];
             carry ^= c2[i + j];
         }
     }
@@ -527,7 +527,7 @@ for(int l = 0; l < 7; l++){
             c1[i + j] += t1[i] * t1[j];
             c2[i + j] += t2[i] * t2[j];
             carry ^= c0[i + j];
-            carry ^= c1[i + j];
+            carry += c1[i + j];
             carry ^= c2[i + j];
         }
     }
@@ -627,7 +627,7 @@ for(int l = 0; l < 7; l++){
             c1[i + j] += t1[i] * t1[j];
             c2[i + j] += t2[i] * t2[j];
             carry ^= c0[i + j];
-            carry ^= c1[i + j];
+            carry += c1[i + j];
             carry ^= c2[i + j];
         }
     }
@@ -723,7 +723,7 @@ for(int l = 0; l < 7; l++){
             c1[i + j] += t1[i] * t1[j];
             c2[i + j] += t2[i] * t2[j];
             carry ^= c0[i + j];
-            carry ^= c1[i + j];
+            carry += c1[i + j];
             carry ^= c2[i + j];
         }
     }
@@ -811,7 +811,7 @@ for(int l = 0; l < 7; l++){
             c1[i + j] += t1[i] * t1[j];
             c2[i + j] += t2[i] * t2[j];
             carry ^= c0[i + j];
-            carry ^= c1[i + j];
+            carry += c1[i + j];
             carry ^= c2[i + j];
         }
     }
@@ -973,7 +973,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1068,7 +1068,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1166,7 +1166,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1256,7 +1256,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1326,7 +1326,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1422,7 +1422,7 @@ for(int l = 0; l < 7; l++){
         for(int j = 232 - i; j < 234; j++){
             c = (long long) inv[i] * x[j] + (long long) inv[j] * x[i];
             carry ^= (q[i + j - 188] += c & mask);
-            carry ^= (q[i + j - 187] += c >> 29);
+            carry += (q[i + j - 187] += c >> 29);
         }
     }
 
@@ -1485,7 +1485,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1571,7 +1571,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1669,7 +1669,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1743,7 +1743,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1813,7 +1813,7 @@ for(int l = 0; l < 7; l++){
             cc1[i + j] += t1[i] * s1[j];
             cc2[i + j] += t2[i] * s2[j];
             carry ^= cc0[i + j];
-            carry ^= cc1[i + j];
+            carry += cc1[i + j];
             carry ^= cc2[i + j];
         }
     }
@@ -1898,7 +1898,7 @@ for(int l = 0; l < 7; l++){
         for(int j = 168; j < 234 - i; j++){
             c = (long long) m[i] * x[j] + (long long) m[j] * x[i];
             carry ^= (q[i + j] += c & mask);
-            carry ^= (q[i + j + 1] += c >> 29);
+            carry += (q[i + j + 1] += c >> 29);
         }
     }
 

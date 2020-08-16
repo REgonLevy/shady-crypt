@@ -1,6 +1,6 @@
 {
   "name": "shady-crypt",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A better-than-average password hashing and CSPRNG library.",
   "main": "index.js",
   "license": "MIT"
